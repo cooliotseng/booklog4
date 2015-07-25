@@ -1,6 +1,17 @@
 var express = require('express');
 var router = express.Router();
 var events = require('events');
+var winston = require('winston');
+
+winston.add(winston.transports.File, { 
+  name: 'booklog4',
+  filename: 'booklog-rest-api-info.log',
+  level: 'info'
+});
+
+
+
+
 
 function ensureAuthenticate(req, res, next) {
   if (req.isAuthenticated()) { return next(); }
@@ -9,6 +20,7 @@ function ensureAuthenticate(req, res, next) {
 
 router.get('/1/post', ensureAuthenticate);
 router.get('/1/post', function(req, res, next) {
+  winston.log('info', 'GET: /1/post');
   var workflow = new events.EventEmitter();  
   var Post = req.app.db.model.Post;
 
