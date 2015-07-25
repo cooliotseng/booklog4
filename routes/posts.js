@@ -53,6 +53,7 @@ router.get('/1/post', function(req, res, next) {
 
 router.get('/1/post/:id', ensureAuthenticate);
 router.get('/1/post/:id', function(req, res, next) {
+   winston.log('info', 'GET: /1/post/:id');
   req.app.db.model.Post.findById(req.params.id, function(err, posts) {
   	res.json(posts);
   });
@@ -60,6 +61,7 @@ router.get('/1/post/:id', function(req, res, next) {
 
 router.post('/1/post', ensureAuthenticate);
 router.post('/1/post', function(req, res, next) {
+   winston.log('info', 'POST: /1/post/');
   var workflow = new events.EventEmitter();  
   var Post = req.app.db.model.Post;
 
@@ -107,12 +109,14 @@ router.post('/1/post', function(req, res, next) {
 });
 
 router.delete('/1/post/:id', function(req, res, next) {
+   winston.log('info', 'delet: /1/post/:id');
   req.app.db.model.Post.findByIdAndRemove(req.params.id, function(err, posts) {
   	res.json(posts);
   });
 });
 
 router.put('/1/post/:id', function(req, res, next) {
+   winston.log('info', 'PUT: /1/post/:id');
   var fieldsToSet = {
   	title: req.query.title,
   	content: req.query.content
